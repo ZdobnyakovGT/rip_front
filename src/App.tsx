@@ -39,7 +39,7 @@ function App() {
                     <Breadcrumbs selectedTopic={selectedTopic} />
                 </Row>
                 <Row>
-                  <BrowserRouter basename="/rip_front">
+                  <BrowserRouter basename="/https://github.com/ZdobnyakovGT/rip_front">
                     <Routes>
 						            <Route path="/" element={<HomePage />} />
                         <Route path="/topics/" element={<TopicsPage topics={topics} setTopics={setTopics} isMock={isMock} setIsMock={setIsMock} topicName={topicName} setTopicName={setTopicName}/>} />
