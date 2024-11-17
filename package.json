@@ -9,6 +9,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "check-before-deploy": "echo 'Before deploy check:' && ls -la dist",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
