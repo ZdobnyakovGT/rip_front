@@ -7,6 +7,7 @@
 
 # Папка для зависимостей
 /node_modules/
+/node_modules
 /src-tauri/target/
 
 # Резервные копии
