@@ -46,7 +46,7 @@ const TopicsPage = ({topics, setTopics, isMock, setIsMock, topicName, setTopicNa
 
     useEffect(() => {
         fetchData()
-    }, [topicName]);
+    }, []);
 
     return (
         <Container className="container-custom">
