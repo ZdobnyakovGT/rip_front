@@ -3,15 +3,19 @@ import App from './App.tsx'
 import 'bootstrap/dist/css/bootstrap.css';
 import { BrowserRouter} from "react-router-dom";
 import './App.css';
+import { Provider } from 'react-redux'; 
+import { store } from './store'; 
 
 
 createRoot(document.getElementById('root')!).render(
-  <BrowserRouter future={{
-    v7_startTransition: true,
-    v7_relativeSplatPath: true,
-  }} basename="/rip_front">
-        <App />
-  </BrowserRouter>
+  <Provider store={store}> {/* Оборачиваем Provider */}
+    <BrowserRouter future={{
+      v7_startTransition: true,
+      v7_relativeSplatPath: true,
+    }} basename="/rip_front">
+          <App />
+    </BrowserRouter>
+  </Provider>
 )
 
 if ("serviceWorker" in navigator) {

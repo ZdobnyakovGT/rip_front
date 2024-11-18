@@ -5,6 +5,9 @@ import {TopicMocks} from "src/modules/mocks.ts";
 import {FormEvent, useEffect} from "react";
 import * as React from "react";
 import 'src/App.css';
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "src/store";
+import { setTopicName } from "src/searchSlice";
 
 
 type TopicsPageProps = {
@@ -12,15 +15,15 @@ type TopicsPageProps = {
     setTopics: React.Dispatch<React.SetStateAction<T_Topic[]>>
     isMock: boolean,
     setIsMock: React.Dispatch<React.SetStateAction<boolean>>
-    topicName: string,
-    setTopicName: React.Dispatch<React.SetStateAction<string>>
 }
 
-const TopicsPage = ({topics, setTopics, isMock, setIsMock, topicName, setTopicName}:TopicsPageProps) => {
+const TopicsPage = ({ topics, setTopics, isMock, setIsMock }:TopicsPageProps) => {
+    const topicName = useSelector((state: RootState) => state.search.topicName);
+    const dispatch = useDispatch();
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`/api/topics/search?topic_name=${topicName.toLowerCase()}`,{ signal: AbortSignal.timeout(1000) })
+            const response = await fetch(`/api/topics/search?name=${topicName.toLowerCase()}`,{ signal: AbortSignal.timeout(1000) })
             const data = await response.json()
             setTopics(data.topics)
             setIsMock(false)
@@ -53,7 +56,7 @@ const TopicsPage = ({topics, setTopics, isMock, setIsMock, topicName, setTopicNa
             <Row className="justify-content-center mb-5">
                 <Col xs="12" md="8" lg="6">
                     <Form onSubmit={handleSubmit} className="d-flex">
-                        <Input value={topicName} onChange={(e) => setTopicName(e.target.value)} placeholder="Поиск..." className="me-2 search-input"></Input>
+                        <Input value={topicName} onChange={(e) => dispatch(setTopicName(e.target.value))} placeholder="Поиск..." className="me-2 search-input"></Input>
                         <Button color="primary" className="search-button">Поиск</Button>
                     </Form>
                 </Col>

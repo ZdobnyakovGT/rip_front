@@ -16,7 +16,6 @@ function App() {
   const [topics, setTopics] = useState<T_Topic[]>([])
   const [selectedTopic, setSelectedTopic] = useState<T_Topic | null>(null)
   const [isMock, setIsMock] = useState(false);
-  const [topicName, setTopicName] = useState<string>("")
 
 
   // useEffect(() => {
@@ -42,7 +41,7 @@ function App() {
                 <Row>
                     <Routes>
 						            <Route path="/" element={<HomePage />} />
-                        <Route path="/topics/" element={<TopicsPage topics={topics} setTopics={setTopics} isMock={isMock} setIsMock={setIsMock} topicName={topicName} setTopicName={setTopicName}/>} />
+                        <Route path="/topics/" element={<TopicsPage topics={topics} setTopics={setTopics} isMock={isMock} setIsMock={setIsMock} />} />
                         <Route path="/topics/:id" element={<TopicPage selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} isMock={isMock} setIsMock={setIsMock}/>} />
                     </Routes>
 
