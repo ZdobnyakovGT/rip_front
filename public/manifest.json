@@ -1,0 +1,33 @@
+{
+    "name": "Museum",
+    "short_name": "Museum",
+    "start_url": "/rip_front/",
+    "display": "standalone",
+    "background_color": "#fdfdfd",
+    "theme_color": "#db4938",
+    "orientation": "portrait-primary",
+    "icons": [
+      {
+        "src": "/im0.png",
+        "type": "image/png", "sizes": "192x192"
+      },
+      {
+        "src": "/im0.png",
+        "type": "image/png", "sizes": "512x512"
+      }
+    ],
+
+    "screenshots": [
+        {
+          "src": "/images/screenshot-wide.png",
+          "sizes": "1280x720",
+          "type": "image/png",
+          "form_factor": "wide"
+        },
+        {
+          "src": "/images/screenshot-mobile.png",
+          "sizes": "750x1334",
+          "type": "image/png"
+        }
+      ]
+  }

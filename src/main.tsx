@@ -5,10 +5,6 @@ import { BrowserRouter} from "react-router-dom";
 import './App.css';
 
 
-// ReactDOM.createRoot(document.getElementById('root')!).render(
-//         <App />
-// )
-
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter future={{
     v7_startTransition: true,
@@ -16,6 +12,13 @@ createRoot(document.getElementById('root')!).render(
   }} basename="/rip_front">
         <App />
   </BrowserRouter>
-
 )
 
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function() {
+    navigator.serviceWorker
+      .register("/rip_front/serviceWorker.js")
+      .then(res => console.log("service worker11111111111", res))
+      .catch(err => console.log("service worker00000000000d", err))
+  })
+}
