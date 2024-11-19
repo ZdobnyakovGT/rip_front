@@ -52,21 +52,21 @@ const TopicPage = ({selectedTopic, setSelectedTopic, isMock, setIsMock}: TopicPa
     }
 
     return (
-        <Container>
-            <Row>
-                <Col md="3">
-                    <img
-                        alt=""
-                        src={isMock ? mockImage as string : selectedTopic.photo_url}
-                        className="w-100"
-                    />
-                </Col>
-                <Col md="6">
-                    <h1 className="mb-3">{selectedTopic.name}</h1>
-                    <p className="fs-5">Описание: {selectedTopic.description}</p>
-                </Col>
-            </Row>
-        </Container>
+<Container>
+    <Row>
+        <Col md="3" className="d-flex justify-content-center">
+            <img
+                alt=""
+                src={isMock ? mockImage as string : selectedTopic.photo_url}
+                className="w-100 rounded-image" // Использование класса для стилей
+            />
+        </Col>
+        <Col md="6">
+            <h1 className="mb-3">{selectedTopic.name}</h1>
+            <p className="fs-5">Описание: {selectedTopic.description}</p>
+        </Col>
+    </Row>
+</Container>
     );
 };
 

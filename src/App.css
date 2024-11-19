@@ -131,3 +131,14 @@ body {
 .classroom-card-col {
   margin-bottom: 30px;
 }
+
+.header-container {
+  max-height: 130px; /* Установите желаемую максимальную высоту */
+}
+
+.rounded-image {
+  border-radius: 20px; /* Скругляем углы на 20 px */
+  max-width: 70%; /* Ограничиваем максимальную ширину */
+  height: auto; /* Автоматическая высота для сохранения пропорций */
+}
+

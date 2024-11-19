@@ -53,17 +53,17 @@ const TopicsPage = ({ topics, setTopics, isMock, setIsMock }:TopicsPageProps) =>
 
     return (
         <Container className="container-custom">
-            <Row className="justify-content-center mb-5">
+            <Row className="justify-content-center mb-4">
                 <Col xs="12" md="8" lg="6">
                     <Form onSubmit={handleSubmit} className="d-flex">
-                        <Input value={topicName} onChange={(e) => dispatch(setTopicName(e.target.value))} placeholder="Поиск..." className="me-2 search-input"></Input>
+                        <Input value={topicName} onChange={(e) => dispatch(setTopicName(e.target.value))} placeholder="Поиск..." className="me-2 search-input" />
                         <Button color="primary" className="search-button">Поиск</Button>
                     </Form>
                 </Col>
             </Row>
             <Row>
                 {topics?.map(topic => (
-                    <Col key={topic.topic_id} xs="3">
+                    <Col key={topic.topic_id} xs="12" sm="6" md="4" lg="3" className="mb-4">
                         <TopicCard topic={topic} isMock={isMock} />
                     </Col>
                 ))}
