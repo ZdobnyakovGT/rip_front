@@ -3,7 +3,7 @@
     "short_name": "Museum",
     "start_url": "/rip_front/",
     "display": "standalone",
-    "background_color": "#fdfdfd",
+    "background_color": "#b6b197",
     "theme_color": "#b6b197",
     "orientation": "portrait-primary",
     "icons": [
