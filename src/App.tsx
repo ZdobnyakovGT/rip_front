@@ -9,7 +9,6 @@ import {Container, Row} from "reactstrap";
 import HomePage from "pages/HomePage";
 import "./App.css"
 
-// const { invoke } = (window as any).__Tauri__?.tauri;
 
 function App() {
   
@@ -17,18 +16,6 @@ function App() {
   const [selectedTopic, setSelectedTopic] = useState<T_Topic | null>(null)
   const [isMock, setIsMock] = useState(false);
 
-
-  // useEffect(() => {
-  //   if ((window as any).__Tauri__?.tauri) {
-  //     const { invoke } = (window as any).__Tauri__.tauri;
-  //     invoke('create')
-  //       .then((response: any) => console.log(response))
-  //       .catch((error: any) => console.log(error));
-  //   } else {
-  //     console.error("Tauri не инициализирован.");
-  //   }
-  // }, []);
-  
  
     return (
         <div style={{minHeight: '100vh', backgroundColor: '#b6b197' }}>

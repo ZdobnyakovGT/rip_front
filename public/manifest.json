@@ -1,7 +1,7 @@
 {
     "name": "Museum",
     "short_name": "Museum",
-    "start_url": "/rip_front/",
+    "start_url": "/shows_front/",
     "display": "standalone",
     "background_color": "#b6b197",
     "theme_color": "#b6b197",

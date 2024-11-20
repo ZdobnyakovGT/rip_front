@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter future={{
       v7_startTransition: true,
       v7_relativeSplatPath: true,
-    }} basename="/rip_front">
+    }} basename="/shows_front/">
           <App />
     </BrowserRouter>
   </Provider>
@@ -21,7 +21,7 @@ createRoot(document.getElementById('root')!).render(
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function() {
     navigator.serviceWorker
-      .register("/rip_front/serviceWorker.js")
+      .register("/shows_front/serviceWorker.js")
       .then(res => console.log("service worker11111111111", res))
       .catch(err => console.log("service worker00000000000d", err))
   })
