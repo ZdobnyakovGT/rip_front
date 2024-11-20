@@ -1,5 +1,5 @@
-lr1 = https://github.com/ZdobnyakovGT/shows_back/tree/SSR_last \t
-lr2 = https://github.com/ZdobnyakovGT/shows_back/tree/DB \t
+lr1 = https://github.com/ZdobnyakovGT/shows_back/tree/SSR_last 
+lr2 = https://github.com/ZdobnyakovGT/shows_back/tree/DB 
 lr3 = https://github.com/ZdobnyakovGT/shows_back/tree/API
 lr4 = https://github.com/ZdobnyakovGT/shows_back/tree/SWAG
 lr5 = https://github.com/ZdobnyakovGT/shows_front/tree/REACT4
