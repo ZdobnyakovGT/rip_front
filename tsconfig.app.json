@@ -24,6 +24,8 @@
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
 
+    //"typeRoots": ["./node_modules/@types", "./src/types"],
+
     "baseUrl": "src",
     "paths": {
       "src/*": ["./*"],
@@ -34,5 +36,5 @@
       "utils/*": ["utils/*"]
     }
   },
-  "include": ["src", "vite.config.js"]
+  "include": ["src", "vite.config.js", "src/**/*"]
 }
