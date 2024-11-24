@@ -23,7 +23,7 @@ const TopicsPage = ({ topics, setTopics, isMock, setIsMock }:TopicsPageProps) =>
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`/api/topics/search?name=${topicName.toLowerCase()}`,{ signal: AbortSignal.timeout(1000) })
+            const response = await fetch(`/api/topics/search?topic_name=${topicName.toLowerCase()}`,{ signal: AbortSignal.timeout(1000) })
             const data = await response.json()
             setTopics(data.topics)
             setIsMock(false)
