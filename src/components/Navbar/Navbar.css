@@ -1,0 +1,38 @@
+/* Общие стили панели */
+.custom-navbar {
+    height: 50px; /* Высота панели */
+    border-radius: 12px; /* Скругленные края */
+    background-color: #d1b97f; /* Цвет панели */
+    padding: 0 15px; /* Внутренние отступы */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Легкая тень */
+  }
+  
+  /* Стили текста слева */
+  .navbar-title {
+    font-size: 18px;
+    color: white; /* Белый цвет текста */
+    font-weight: 500;
+  }
+  
+  /* Стили кнопок */
+  .navbar-button {
+    font-size: 14px;
+    padding: 5px 15px;
+    text-decoration: none;
+    color: white;
+    background-color: #d1b97f; /* Цвет кнопок совпадает с цветом панели */
+    border-radius: 8px; /* Скругленные края кнопок */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Анимация */
+  }
+  
+  /* Эффект наведения на кнопки */
+  .navbar-button:hover {
+    background-color: #c1aa71; /* Потемнее при наведении */
+    transform: translateY(-2px); /* Легкий эффект подъема */
+  }
+  
+  /* Отступ между кнопками и правым краем */
+  .me-4 {
+    margin-right: 1rem; /* Отступ справа */
+  }
+  
