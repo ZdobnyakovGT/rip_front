@@ -12,6 +12,27 @@ import { api } from "src/api";
 import { useState } from "react";
 import { useAppSelector } from "src/core/store/hooks.ts";
 import { useNavigate } from "react-router-dom";
+import { fetchTopicsByQuery } from 'src/api/index.ts';
+
+
+enum Season {
+    Winter = 'Winter',
+    Spring = 'Spring',
+    Summer = 'Summer',
+    Fall = 'Fall'
+}
+
+const weatherConditions: { [key in Season]: string[] } = {
+    [Season.Winter]: ['Snowy', 'Cold', 'Cloudy'],
+    [Season.Spring]: ['Sunny', 'Rainy', 'Cloudy'],
+    [Season.Summer]: ['Sunny', 'Hot', 'Humid'],
+    [Season.Fall]: ['Windy', 'Cool', 'Rainy'],
+};
+
+const getRandomWeather = (season: Season) => {
+    const conditions = weatherConditions[season];
+    return conditions[Math.floor(Math.random() * conditions.length)];
+}
 
 type TopicsPageProps = {
     topics: T_Topic[];
@@ -19,6 +40,7 @@ type TopicsPageProps = {
     isMock: boolean;
     setIsMock: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
 
 const TopicsPage = ({ topics, setTopics, isMock, setIsMock }: TopicsPageProps) => {
     const navigate = useNavigate();
@@ -28,20 +50,49 @@ const TopicsPage = ({ topics, setTopics, isMock, setIsMock }: TopicsPageProps) =
     const dispatch = useDispatch();
     const [topicsCount, setTopicsCount] = useState<number | null>(null);
     const [draft, setDraft] = useState<number | null>(null);
+    const [seasonIndex, setSeasonIndex] = useState(0);
+    const [weather, setWeather] = useState(getRandomWeather(Season.Winter));
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    // const fetchData = async () => {
+    //     try {
+    //         const response = await api.topics.topicsSearchList({
+    //             query: topicName.toLowerCase(),
+    //         });
+
+    //         setTopics(response.data.topics);
+    //         setTopicsCount(response.data.topics_count);
+    //         setDraft(response.data.draft_show_id);
+    //         setIsMock(false);
+    //     } catch (error) {
+    //         console.error("Error fetching topics:", error);
+    //         createMocks();
+    //     }
+    // };
 
     const fetchData = async () => {
+        setLoading(true);
+        setError(null);
         try {
-            const response = await api.topics.topicsSearchList({
-                query: topicName.toLowerCase(),
-            });
+            const resultAction = await dispatch(fetchTopicsByQuery(topicName.toLowerCase()));
 
-            setTopics(response.data.topics);
-            setTopicsCount(response.data.topics_count);
-            setDraft(response.data.draft_show_id);
-            setIsMock(false);
+            if (fetchTopicsByQuery.fulfilled.match(resultAction)) {
+                const response = resultAction.payload;
+
+                setTopics(response.topics); // если response имеет структуру TopicsResponse
+                setTopicsCount(response.topics_count);
+                setDraft(response.draft_show_id);
+                setIsMock(false);
+            } else {
+                setError("Failed to fetch topics."); // Обработка ошибок, если действие завершилось неудачей
+            }
         } catch (error) {
             console.error("Error fetching topics:", error);
+            setError("An error occurred while fetching topics.");
             createMocks();
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -56,6 +107,10 @@ const TopicsPage = ({ topics, setTopics, isMock, setIsMock }: TopicsPageProps) =
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
+        const nextIndex = (seasonIndex + 1) % Object.keys(Season).length; // Смена времени года
+        setSeasonIndex(nextIndex);
+        setWeather(getRandomWeather(Object.values(Season)[nextIndex] as Season));
+        
         if (isMock) {
             createMocks();
         } else {
@@ -67,6 +122,8 @@ const TopicsPage = ({ topics, setTopics, isMock, setIsMock }: TopicsPageProps) =
         try {
             await api.topics.topicsAddToShowCreate(topicId);
             console.log(`Topic ${topicId} added to show`);
+            setTopicsCount((prevCount) => prevCount + 1);
+            fetchData();
         } catch (error) {
             console.error(`Failed to add topic ${topicId} to show:`, error);
         }
@@ -74,7 +131,7 @@ const TopicsPage = ({ topics, setTopics, isMock, setIsMock }: TopicsPageProps) =
 
     useEffect(() => {
         fetchData();
-    }, [handleSubmit]);
+    }, []);
 
     return (
         <Container className="container-custom">
@@ -103,6 +160,12 @@ const TopicsPage = ({ topics, setTopics, isMock, setIsMock }: TopicsPageProps) =
                     </Form>
                 </Col>
             </Row>
+            {/* <Row>
+                <Col className="mb-4" xs="12" style={{ textAlign: 'center' }}>
+                    <h2>Текущее время года: {Object.values(Season)[seasonIndex]}</h2>
+                    <h3>Погода: {weather}</h3>
+                </Col>
+            </Row> */}
             <Row>
                 {topics?.map((topic) => (
                     <Col

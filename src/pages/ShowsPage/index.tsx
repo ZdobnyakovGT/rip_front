@@ -12,7 +12,7 @@ interface Show {
   status: string;
   topics_count: number; // Массив тем
 }
-
+ 
 const ShowsPage: React.FC = () => {
   const navigate = useNavigate(); // Используем хук навигации
   const [shows, setShows] = useState<Show[]>([]);

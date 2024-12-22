@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button, Input } from "reactstrap";
 import { api } from "src/api";
 import CartCard from "components/CartCard";
-import { useNavigate } from "react-router-dom";
 
 const CartShowPage: React.FC = () => {
   const navigate = useNavigate();
@@ -13,20 +12,30 @@ const CartShowPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [checkedTopics, setCheckedTopics] = useState<number[]>([]);
 
+  // Состояния для данных шоу
   const [showName, setShowName] = useState<string>("");
-  const [showDate, setShowDate] = useState<Date>();
+  const [showDate, setShowDate] = useState<string | null>(null);
   const [showTime, setShowTime] = useState<string>("");
   const [showPlace, setShowPlace] = useState<string>("");
 
+  // Получение данных шоу
   useEffect(() => {
+    // Проверка статуса перед загрузкой данных
     const fetchShowDetails = async () => {
       try {
         setLoading(true);
         const response = await api.shows.showsRead(showId!);
         setShowDetails(response.data);
 
+        // Проверка на статус 5, если статус 5, то пропускаем дальнейшую загрузку
+        if (response.data.status === 5) {
+          setError("Данные не могут быть загружены, так как выставка удалена.");
+          setLoading(false);
+          return; // Прерываем загрузку
+        }
+
         setShowName(response.data.show_name || "");
-        setShowDate(response.data.show_date);
+        setShowDate(response.data.show_date || "");
         setShowTime(response.data.show_time || "");
         setShowPlace(response.data.show_place || "");
       } catch (err) {
@@ -42,6 +51,7 @@ const CartShowPage: React.FC = () => {
     }
   }, [showId]);
 
+  // Обработчик для переключения темы
   const handleCheckboxToggle = (topicId: number) => {
     setCheckedTopics((prev) =>
       prev.includes(topicId)
@@ -50,6 +60,7 @@ const CartShowPage: React.FC = () => {
     );
   };
 
+  // Обработчик для удаления темы
   const handleRemoveTopic = async (topicId: number) => {
     try {
       await api.shows.showsDeleteTopicDelete(showId!, topicId.toString());
@@ -64,6 +75,7 @@ const CartShowPage: React.FC = () => {
     }
   };
 
+  // Обработчик сохранения данных шоу
   const handleSave = async () => {
     try {
       const payload = {
@@ -83,6 +95,20 @@ const CartShowPage: React.FC = () => {
     }
   };
 
+  // Обработчик удаления шоу
+  const handleDelete = async () => {
+    try {
+      await api.shows.showsDeleteDelete(showId!);
+      console.log("Show DELETE successfully");
+      // await api.shows.showsUpdateStatusUserUpdate(showId!);
+      console.log("User status updated successfully");
+      navigate("/topics");
+    } catch (err) {
+      console.error("Error deleting show details:", err);
+    }
+  };
+
+  // Если статус равен 5, выводим сообщение и не загружаем данные
   if (loading) return <div>Загрузка...</div>;
   if (error) return <div className="text-danger">{error}</div>;
 
@@ -97,7 +123,7 @@ const CartShowPage: React.FC = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: "10px", // Дополнительный отступ между элементами
+          gap: "10px",
         }}
       >
         <Col xs="2">
@@ -109,10 +135,7 @@ const CartShowPage: React.FC = () => {
             type="text"
             value={showName}
             onChange={(e) => setShowName(e.target.value)}
-            style={{
-              display: "inline-block",
-              width: "100%",
-            }}
+            style={{ display: "inline-block", width: "100%" }}
             disabled={showDetails?.status !== 1}
           />
         </Col>
@@ -120,12 +143,9 @@ const CartShowPage: React.FC = () => {
           <span>Дата:</span>
           <Input
             type="date"
-            value={showDate?.toString().slice(0, 10)}
-            onChange={(e) => setShowDate(new Date(e.target.value))}
-            style={{
-              display: "inline-block",
-              width: "100%",
-            }}
+            value={showDate || ""}
+            onChange={(e) => setShowDate(e.target.value)}
+            style={{ display: "inline-block", width: "100%" }}
             disabled={showDetails?.status !== 1}
           />
         </Col>
@@ -135,10 +155,7 @@ const CartShowPage: React.FC = () => {
             type="time"
             value={showTime}
             onChange={(e) => setShowTime(e.target.value)}
-            style={{
-              display: "inline-block",
-              width: "100%",
-            }}
+            style={{ display: "inline-block", width: "100%" }}
             disabled={showDetails?.status !== 1}
           />
         </Col>
@@ -148,10 +165,7 @@ const CartShowPage: React.FC = () => {
             type="text"
             value={showPlace}
             onChange={(e) => setShowPlace(e.target.value)}
-            style={{
-              display: "inline-block",
-              width: "100%",
-            }}
+            style={{ display: "inline-block", width: "100%" }}
             disabled={showDetails?.status !== 1}
           />
         </Col>
@@ -163,7 +177,7 @@ const CartShowPage: React.FC = () => {
             <Button color="primary" onClick={handleSave}>
               Сохранить
             </Button>
-            <Button color="danger" onClick={() => console.log("Удаление выставки")}>
+            <Button color="danger" onClick={handleDelete}>
               Удалить
             </Button>
           </Col>
@@ -176,9 +190,7 @@ const CartShowPage: React.FC = () => {
             <CartCard
               topic={topic}
               onDetailsClick={() => navigate(`/topics/${topic.topic_id}`)}
-              onRemoveClick={
-                showDetails?.status === 1 ? handleRemoveTopic : undefined
-              }
+              onRemoveClick={showDetails?.status === 1 ? handleRemoveTopic : undefined}
               onCheckboxToggle={handleCheckboxToggle}
               isChecked={checkedTopics.includes(topic.topic_id)}
             />

@@ -166,7 +166,7 @@ export interface UserRegister {
    */
   username: string;
 }
-
+ 
 export interface User {
   /** ID */
   id?: number;

@@ -12,7 +12,7 @@ export const store = configureStore({
 
   },
 });
-
+ 
 // store.dispatch(checkUserSession()); // Проверяем сессию при загрузке
 
 export type RootState = ReturnType<typeof store.getState>;

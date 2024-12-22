@@ -1,17 +1,35 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Navbar as NavbarComp } from "react-bootstrap";
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "src/core/store/hooks.ts";
 import { logoutUserAsync } from "../../core/store/slices/userSlice";
+import { checkUserSession } from "../../core/store/slices/userSlice"; // Проверьте импорт правильно
+
 
 export const Navbar: FC = () => {
   const { isAuth, login } = useAppSelector((state) => state.userAuth);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate(); // Используем хук useNavigate
 
-  const handleLogout = () => {
-    dispatch(logoutUserAsync());
+
+  // const [sessionChecked, setSessionChecked] = useState(false);
+    
+  // useEffect(() => {
+  //     // Проверяем сессию только если она еще не была проверена
+  //     if (!sessionChecked) {
+  //         dispatch(checkUserSession());
+  //         setSessionChecked(true); // Устанавливаем флаг, чтобы предотвратить повторную проверку
+  //     }
+  // }, [dispatch, sessionChecked]);
+
+
+  const handleLogout = async () => {
+    await dispatch(logoutUserAsync()); // Диспатчим асинхронный экшен
+    window.location.reload()
   };
+
+
 
   return (
     <NavbarComp
@@ -47,3 +65,4 @@ export const Navbar: FC = () => {
     </NavbarComp>
   );
 };
+
