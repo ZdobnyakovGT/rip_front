@@ -133,3 +133,16 @@ export const addTopicToShow = createAsyncThunk<void, number>(
     await api.topics.topicsAddToShowCreate(topicId);
   }
 );
+
+export const fetchUserShows = createAsyncThunk(
+  'userShows/fetchUserShows',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.shows.showsSearchList();
+      return response.data; // Возвращаем данные, если запрос успешен
+    } catch (err) {
+      console.error('Error fetching user shows:', err);
+      return rejectWithValue('Не удалось загрузить данные заявок.');
+    }
+  }
+);

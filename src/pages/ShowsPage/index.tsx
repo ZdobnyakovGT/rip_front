@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from 'react-redux';
 import { Table, Container, Row, Col, Spinner, Alert } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import { api } from "src/api";
+import { fetchUserShows } from 'src/api/index.ts';
+
 
 interface Show {
   show_id: number;
@@ -19,23 +22,27 @@ const ShowsPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchUserShows = async () => {
-      try {
-        setLoading(true);
-        const response = await api.shows.showsSearchList(); // Вызов API метода
-        console.log("Response:", response.data); // Проверяем ответ API
-        setShows(response.data); // Устанавливаем данные заявок
-      } catch (err) {
-        console.error("Error fetching user shows:", err);
-        setError("Не удалось загрузить данные заявок.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUserShows = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const response = await api.shows.showsSearchList(); // Вызов API метода
+  //       console.log("Response:", response.data); // Проверяем ответ API
+  //       setShows(response.data); // Устанавливаем данные заявок
+  //     } catch (err) {
+  //       console.error("Error fetching user shows:", err);
+  //       setError("Не удалось загрузить данные заявок.");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchUserShows();
-  }, []);
+  //   fetchUserShows();
+  // }, []);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUserShows());
+  }, [dispatch]);
 
   if (loading) {
     return (
